@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>pwa</title>
+    <link rel="manifest" href="manifest.json" />
+</head>
+<body>
+    <h1>PWA</h1>
+    <p>PWA是Progressive Web App的英文缩写， 翻译过来就是渐进式增强WEB应用， 是Google 在2016年提出的概念，2017年落地的web技术。目的就是在移动端利用提供的标准化框架，在网页应用中实现和原生应用相近的用户体验的渐进式网页应用。</p>
+    <h4>1. 可靠——即时加载，即使在不确定的网络条件下也不会受到影响。</h4>
+    <p>当用户从主屏幕启动时，service work可以立即加载渐进式Web应用程序，完全不受网络环境的影响。service work就像一个客户端代理，它控制缓存以及如何响应资源请求逻辑，通过预缓存关键资源，可以消除对网络的依赖，确保为用户提供即时可靠的体验。</p>
+    <h4>2. 快速</h4>
+    <p>据统计，如果站点加载时间超过 3s，53%的用户会放弃等待。页面展现之后，用户期望有平滑的体验，过渡动画和快速响应。</p>
+    <h4>3. 沉浸式体验—— 感觉就像设备上的原生应用程序，具有沉浸式的用户体验</h4>
+    <p>渐进式Web应用程序可以安装并在用户的主屏幕上，无需从应用程序商店下载安装。他们提供了一个沉浸式的全屏幕体验，甚至可以重新与用户接触的Web推送通知。</p>
+    <h1>PWA中包含的核心功能及特性如下：</h1>
+    <p>Web App Manifest</p>
+    <p>Service Worker</p>
+    <p>Cache API 缓存</p>
+    <p>Push&Notification 推送与通知</p>
+    <p>Background Sync 后台同步</p>
+    <p>响应式设计</p>
+    <script>
+        window.addEventListener('load', async () => {
+            if('serviceWorker' in navigator){
+                try{
+                    const registration = await navigator.serviceWorker.register('sw.js')
+                    console.log('注册成功', registration)
+                }catch(e){
+                    console.log('注册失败')
+                }
+            }
+        })
+        
+        if (Notification.permission === 'default'){
+            Notification.requestPermission()
+        }
+
+        if (!navigator.onLine) {
+            new Notification('提示', {body: '您当前没有网络，您访问的是缓存内容'})
+        }
+
+        window.addEventListener('offline', () => {
+            new Notification('提示', {body: '您当前网络断开了'})
+        })
+
+        window.addEventListener('online', () => {
+            new Notification('提示', {body: '您当前网络已经正常联网了'})
+        })
+    </script>
+</body>
+</html>
